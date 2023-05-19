@@ -31,11 +31,19 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/myToys", async (req, res) => {
+      let query = {};
+      if (req.query?.sellerEmail) {
+        query = { sellerEmail: req.query.sellerEmail };
+      }
+      const result = await toysCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.post("/toy", async (req, res) => {
       const newToy = req.body;
       const result = await toysCollection.insertOne(newToy);
       res.send(result);
-      console.log(newToy);
     });
 
     // Send a ping to confirm a successful connection
