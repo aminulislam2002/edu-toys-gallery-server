@@ -40,6 +40,15 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/categoryToys", async (req, res) => {
+      let query = {};
+      if (req.query?.category) {
+        query = { category: req.query.category };
+      }
+      const result = await toysCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.get("/toys/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
@@ -63,13 +72,15 @@ async function run() {
           name: updatedToy.name,
           category: updatedToy.category,
           title: updatedToy.title,
-          photoURL: updatedToy.photoURL,
+          image: updatedToy.image,
           sellerName: updatedToy.sellerName,
           price: updatedToy.price,
           sellerEmail: updatedToy.sellerEmail,
           quantity: updatedToy.quantity,
           description: updatedToy.description,
           ratings: updatedToy.ratings,
+          brand: updatedToy.brand,
+          code: updatedToy.code,
         },
       };
       const result = await toysCollection.updateOne(filter, toy, options);
