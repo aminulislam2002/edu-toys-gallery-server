@@ -38,7 +38,7 @@ async function run() {
       } else if (req.query?.name) {
         query = { name: req.query.name };
       }
-      const result = await toysCollection.find(query).toArray();
+      const result = await toysCollection.find(query).limit(20).toArray();
       res.send(result);
     });
 
